@@ -1,0 +1,50 @@
+version: '3'
+services:
+  web:
+    build: .
+    ports:
+      - "5000:5000"
+    depends_on:
+      - db
+      - visualizer
+    volumes:
+     - .:/code
+  hub:
+    depends_on:
+      - db
+    image: "jupyterhub/jupyterhub:latest"
+    volumes:
+      - ./data:/var/lib/jupyterhub
+      - /etc/passwd:/etc/passwd
+      - /etc/shadow:/etc/shadow
+    ports:
+      - "8000:8000"
+    links:
+      - db
+    environment:
+      # All containers will join this network
+      DOCKER_NETWORK_NAME: jupyterhub-network
+      # JupyterHub will spawn this Notebook image for users
+      DOCKER_NOTEBOOK_IMAGE: 'jupyter/datascience-notebook'
+      # Notebook directory inside user image
+      DOCKER_NOTEBOOK_DIR: /home/jovyan/work
+      # Using this run command (optional)
+      DOCKER_SPAWN_CMD: start-singleuser.sh
+  notebook:
+    depends_on:
+      - hub
+    image: "jupyter/datascience-notebook"
+    ports:
+      - "8888:8888"
+  db:
+    image: "influxdb:latest"
+    volumes:
+      - ./data:/var/lib/influxdb
+    ports:
+      - "8086:8086"
+  visualizer:
+    image: "grafana/grafana:latest"
+    volumes:
+      - ./config:/var/lib/grafana
+    ports:
+      - "3000:3000"
