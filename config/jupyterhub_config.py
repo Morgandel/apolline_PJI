@@ -72,7 +72,7 @@
 #  - takes two arguments: (handler, data),
 #    where `handler` is the calling web.RequestHandler,
 #    and `data` is the POST form data from the login page.
-#c.JupyterHub.authenticator_class = 'jupyterhub.auth.PAMAuthenticator'
+c.JupyterHub.authenticator_class = 'jupyterhub.auth.PAMAuthenticator'
 
 ## The base URL of the entire application
 #c.JupyterHub.base_url = '/'
@@ -119,7 +119,7 @@
 #c.JupyterHub.concurrent_spawn_limit = 100
 
 ## The config file to load
-#c.JupyterHub.config_file = 'jupyterhub_config.py'
+c.JupyterHub.config_file = 'jupyterhub_config.py'
 
 ## DEPRECATED: does nothing
 #c.JupyterHub.confirm_no_ssl = False
@@ -138,7 +138,7 @@
 #c.JupyterHub.cookie_secret_file = 'jupyterhub_cookie_secret'
 
 ## The location of jupyterhub data files (e.g. /usr/local/share/jupyter/hub)
-#c.JupyterHub.data_files_path = '/home/axel/.local/share/jupyter/hub'
+#c.JupyterHub.data_files_path = '/home/florian/.local/share/jupyter/hub'
 
 ## Include any kwargs to pass to the database connection. See
 #  sqlalchemy.create_engine for details.
@@ -217,7 +217,7 @@
 #c.JupyterHub.pid_file = ''
 
 ## The public facing port of the proxy
-#c.JupyterHub.port = 8000
+c.JupyterHub.port = 8000
 
 ## DEPRECATED since version 0.8 : Use ConfigurableHTTPProxy.api_url
 #c.JupyterHub.proxy_api_ip = ''
@@ -273,10 +273,7 @@
 ## The class to use for spawning single-user servers.
 #
 #  Should be a subclass of Spawner.
-c.JupyterHub.spawner_class = 'dockerspawner.SystemUserSpawner'
-c.DockerSpawner.container_image = 'jupyter/datascience-notebook:latest'
-c.DockerSpawner.use_internal_ip = True
-c.DockerSpawner.debug = True
+c.JupyterHub.spawner_class = 'simplespawner.SimpleLocalProcessSpawner'
 
 ## Path to SSL certificate file for the public facing interface of the proxy
 #
@@ -347,6 +344,7 @@ c.DockerSpawner.debug = True
 #------------------------------------------------------------------------------
 # Spawner(LoggingConfigurable) configuration
 #------------------------------------------------------------------------------
+#c.JupyterHub.spawner_class = 'dockerspawner.SystemUserSpawner'
 
 ## Base class for spawning single-user notebook servers.
 #
@@ -376,7 +374,7 @@ c.DockerSpawner.debug = True
 #  Some spawners allow shell-style expansion here, allowing you to use
 #  environment variables. Most, including the default, do not. Consult the
 #  documentation for your spawner to verify!
-#c.Spawner.cmd = ['jupyterhub-singleuser']
+c.Spawner.cmd = ['jupyterhub-singleuser']
 
 ## Minimum number of cpu-cores a single-user notebook server is guaranteed to
 #  have available.
@@ -430,7 +428,7 @@ c.DockerSpawner.debug = True
 #  This whitelist is used to ensure that sensitive information in the JupyterHub
 #  process's environment (such as `CONFIGPROXY_AUTH_TOKEN`) is not passed to the
 #  single-user server's process.
-#c.Spawner.env_keep = ['PATH', 'PYTHONPATH', 'CONDA_ROOT', 'CONDA_DEFAULT_ENV', 'VIRTUAL_ENV', 'LANG', 'LC_ALL']
+c.Spawner.env_keep = ['PATH', 'PYTHONPATH', 'CONDA_ROOT', 'CONDA_DEFAULT_ENV', 'VIRTUAL_ENV', 'LANG', 'LC_ALL']
 
 ## Extra environment variables to set for the single-user server's process.
 #
@@ -624,7 +622,7 @@ c.DockerSpawner.debug = True
 #  Admin access should be treated the same way root access is.
 #
 #  Defaults to an empty set, in which case no user has admin access.
-#c.Authenticator.admin_users = set()
+c.Authenticator.admin_users = {'florian'}
 
 ## Automatically begin the login process
 #
@@ -674,7 +672,7 @@ c.DockerSpawner.debug = True
 #  restrictions the authenticator has in place.
 #
 #  If empty, does not perform any additional restriction.
-c.Authenticator.whitelist = {'axel','Axel','root'}
+c.Authenticator.whitelist = {'florian'}
 
 #------------------------------------------------------------------------------
 # LocalAuthenticator(Authenticator) configuration
@@ -723,7 +721,7 @@ c.Authenticator.whitelist = {'axel','Axel','root'}
 ## Authenticate local UNIX users with PAM
 
 ## The text encoding to use when communicating with PAM
-#c.PAMAuthenticator.encoding = 'utf8'
+c.PAMAuthenticator.encoding = 'utf8'
 
 ## Whether to open a new PAM session when spawners are started.
 #
@@ -732,10 +730,10 @@ c.Authenticator.whitelist = {'axel','Axel','root'}
 #
 #  If any errors are encountered when opening/closing PAM sessions, this is
 #  automatically set to False.
-#c.PAMAuthenticator.open_sessions = True
+c.PAMAuthenticator.open_sessions = True
 
 ## The name of the PAM service to use for authentication
-#c.PAMAuthenticator.service = 'login'
+c.PAMAuthenticator.service = 'login'
 
 #------------------------------------------------------------------------------
 # CryptKeeper(SingletonConfigurable) configuration
@@ -747,6 +745,14 @@ c.Authenticator.whitelist = {'axel','Axel','root'}
 
 ##
 #c.CryptKeeper.keys = []
-## Coucou
+
+c.Spawner.ip = '127.0.0.1'
+c.DockerSpawner.use_internal_ip = True
+# c.JupyterHub.hub_ip = 'jupyterhub'
+# c.JupyterHub.hub_port = 8080
+
+
 ## The number of threads to allocate for encryption
 #c.CryptKeeper.n_threads = 4
+#test3
+

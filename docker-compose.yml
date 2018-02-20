@@ -1,19 +1,12 @@
 version: '3'
 services:
-  web:
-    build: .
-    ports:
-      - "5000:5000"
-    depends_on:
-      - db
-      - visualizer
-    volumes:
-     - .:/code
   hub:
+    build: .
     depends_on:
       - db
-    image: "jupyterhub/jupyterhub:latest"
+      - notebook
     volumes:
+      - ./config:/srv/jupyterhub
       - ./data:/var/lib/jupyterhub
       - /etc/passwd:/etc/passwd
       - /etc/shadow:/etc/shadow
@@ -25,14 +18,9 @@ services:
       # All containers will join this network
       DOCKER_NETWORK_NAME: jupyterhub-network
       # JupyterHub will spawn this Notebook image for users
-      DOCKER_NOTEBOOK_IMAGE: 'jupyter/datascience-notebook'
-      # Notebook directory inside user image
-      DOCKER_NOTEBOOK_DIR: /home/jovyan/work
-      # Using this run command (optional)
-      DOCKER_SPAWN_CMD: start-singleuser.sh
+      DOCKER_NOTEBOOK_IMAGE: 'jupyter/datascience-notebook:latest'
+    command: ["jupyterhub", "-f", "/srv/jupyterhub/jupyterhub_config.py"]
   notebook:
-    depends_on:
-      - hub
     image: "jupyter/datascience-notebook"
     ports:
       - "8888:8888"
