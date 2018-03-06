@@ -151,7 +151,7 @@ c.JupyterHub.config_file = 'jupyterhub_config.py'
 #c.JupyterHub.debug_db = False
 
 ## DEPRECATED since version 0.8: Use ConfigurableHTTPProxy.debug
-#c.JupyterHub.debug_proxy = False
+c.JupyterHub.debug_proxy = True
 
 ## Send JupyterHub's logs to this file.
 #
@@ -274,6 +274,7 @@ c.JupyterHub.port = 8000
 #
 #  Should be a subclass of Spawner.
 c.JupyterHub.spawner_class = 'simplespawner.SimpleLocalProcessSpawner'
+# c.JupyterHub.spawner_class = 'systemdspawner.SystemdSpawner'
 
 ## Path to SSL certificate file for the public facing interface of the proxy
 #
@@ -398,7 +399,7 @@ c.Spawner.cmd = ['jupyterhub-singleuser']
 #c.Spawner.cpu_limit = None
 
 ## Enable debug-logging of the single-user server
-#c.Spawner.debug = False
+c.Spawner.debug = True
 
 ## The URL the single-user server should start in.
 #
@@ -747,12 +748,12 @@ c.PAMAuthenticator.service = 'login'
 #c.CryptKeeper.keys = []
 
 c.Spawner.ip = '127.0.0.1'
+c.Spawner.port = 8090
 c.DockerSpawner.use_internal_ip = True
 # c.JupyterHub.hub_ip = 'jupyterhub'
-# c.JupyterHub.hub_port = 8080
+c.JupyterHub.hub_port = 8089
 
 
 ## The number of threads to allocate for encryption
 #c.CryptKeeper.n_threads = 4
 #test3
-
