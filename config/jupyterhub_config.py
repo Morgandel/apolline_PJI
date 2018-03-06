@@ -273,7 +273,7 @@ c.JupyterHub.port = 8000
 ## The class to use for spawning single-user servers.
 #
 #  Should be a subclass of Spawner.
-c.JupyterHub.spawner_class = 'simplespawner.SimpleLocalProcessSpawner'
+#c.JupyterHub.spawner_class = 'simplespawner.SimpleLocalProcessSpawner'
 
 ## Path to SSL certificate file for the public facing interface of the proxy
 #
@@ -410,7 +410,7 @@ c.Spawner.cmd = ['jupyterhub-singleuser']
 #    navigate the whole filesystem from their notebook server, but still start in their home directory.
 #  - Start with `/notebooks` instead of `/tree` if `default_url` points to a notebook instead of a directory.
 #  - You can set this to `/lab` to have JupyterLab start by default, rather than Jupyter Notebook.
-#c.Spawner.default_url = ''
+c.Spawner.default_url = '/lab'
 
 ## Disable per-user configuration of single-user servers.
 #
@@ -622,7 +622,7 @@ c.Spawner.env_keep = ['PATH', 'PYTHONPATH', 'CONDA_ROOT', 'CONDA_DEFAULT_ENV', '
 #  Admin access should be treated the same way root access is.
 #
 #  Defaults to an empty set, in which case no user has admin access.
-c.Authenticator.admin_users = {'florian'}
+c.Authenticator.admin_users = {'florian','axel'}
 
 ## Automatically begin the login process
 #
@@ -672,7 +672,7 @@ c.Authenticator.admin_users = {'florian'}
 #  restrictions the authenticator has in place.
 #
 #  If empty, does not perform any additional restriction.
-c.Authenticator.whitelist = {'florian'}
+c.Authenticator.whitelist = {'florian','axel'}
 
 #------------------------------------------------------------------------------
 # LocalAuthenticator(Authenticator) configuration
@@ -748,8 +748,15 @@ c.PAMAuthenticator.service = 'login'
 
 c.Spawner.ip = '127.0.0.1'
 c.DockerSpawner.use_internal_ip = True
-# c.JupyterHub.hub_ip = 'jupyterhub'
 # c.JupyterHub.hub_port = 8080
+
+c.JupyterHub.spawner_class = 'dockerspawner.DockerSpawner'
+#c.JupyterHub.port = 443
+#c.JupyterHub.ssl_key = '/root/server.key'
+#c.JupyterHub.ssl_cert = '/root/server.crt'
+#c.JupyterHub.cookie_secret_file = '/root/jupyterhub_cookie_secret'
+c.DockerSpawner.hub_ip_connect = '127.0.0.1'
+c.JupyterHub.hub_ip = '127.0.0.1'
 
 
 ## The number of threads to allocate for encryption
