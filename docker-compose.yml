@@ -1,7 +1,7 @@
 version: '3'
 services:
-  anaconda:
-    image: "continuumio/anaconda3:latest"
+  jupyter:
+    image: "jupyter/datascience-notebook:latest"
     ports:
       - "8888:8888"
   db:
