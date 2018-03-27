@@ -4,12 +4,14 @@ services:
     image: "jupyter/datascience-notebook:latest"
     ports:
       - "8888:8888"
+    volumes:
+      - ./anaconda:/opt/anaconda
   db:
     image: "influxdb:latest"
     volumes:
       - ./data:/var/lib/influxdb
     ports:
-      - "8086:8086"
+      - "8085:8085"
   visualizer:
     image: "grafana/grafana:latest"
     volumes:
