@@ -1,35 +1,17 @@
 version: '3'
 services:
-  hub:
-    build: .
-    depends_on:
-      - db
-      - notebook
-    volumes:
-      - ./config:/srv/jupyterhub
-      - ./data:/var/lib/jupyterhub
-      - /etc/passwd:/etc/passwd
-      - /etc/shadow:/etc/shadow
-    ports:
-      - "8000:8000"
-    links:
-      - db
-    environment:
-      # All containers will join this network
-      DOCKER_NETWORK_NAME: jupyterhub-network
-      # JupyterHub will spawn this Notebook image for users
-      DOCKER_NOTEBOOK_IMAGE: 'jupyter/datascience-notebook:latest'
-    command: ["jupyterhub", "-f", "/srv/jupyterhub/jupyterhub_config.py"]
-  notebook:
-    image: "jupyter/datascience-notebook"
+  jupyter:
+    image: "jupyter/datascience-notebook:latest"
     ports:
       - "8888:8888"
+    volumes:
+      - ./anaconda:/opt/anaconda
   db:
     image: "influxdb:latest"
     volumes:
       - ./data:/var/lib/influxdb
     ports:
-      - "8086:8086"
+      - "8085:8085"
   visualizer:
     image: "grafana/grafana:latest"
     volumes:
