@@ -1,17 +1,27 @@
 version: '3'
 services:
-  jupyter:
-    image: "jupyter/datascience-notebook:latest"
+#  jupyter:
+#    image: "jupyter/datascience-notebook:latest"
+#    ports:
+#      - "8000:8000"
+#    volumes:
+#      - ./data/jupyter:/opt/jupyter
+#      - ./config/jupyter:/.jupyter
+  
+  chronograf:
+    image: chronograf:alpine
+    volumes:
+      - ./data/chronograf:/var/lib/chronograf
     ports:
       - "8888:8888"
-    volumes:
-      - ./anaconda:/opt/anaconda
+    links:
+    - db
   db:
     image: "influxdb:latest"
     volumes:
-      - ./data:/var/lib/influxdb
+      - ./data/influxdb:/var/lib/influxdb
     ports:
-      - "8085:8085"
+      - "8086:8086"
   visualizer:
     image: "grafana/grafana:latest"
     volumes:
