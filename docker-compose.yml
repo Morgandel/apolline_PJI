@@ -1,21 +1,12 @@
 version: '3'
 services:
-#  jupyter:
-#    image: "jupyter/datascience-notebook:latest"
-#    ports:
-#      - "8000:8000"
-#    volumes:
-#      - ./data/jupyter:/opt/jupyter
-#      - ./config/jupyter:/.jupyter
-  
-  chronograf:
-    image: chronograf:alpine
-    volumes:
-      - ./data/chronograf:/var/lib/chronograf
+  jupyter:
+    image: "jupyter/datascience-notebook:latest"
     ports:
       - "8888:8888"
-    links:
-    - db
+    volumes:
+      - ./data/jupyter:/opt/jupyter
+      - ./config/jupyter:/.jupyter
   db:
     image: "influxdb:latest"
     volumes:
